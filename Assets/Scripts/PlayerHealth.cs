@@ -5,39 +5,54 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private int health;
+    private int _health;
     private GameObject healthUI;
+    private GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         // Set player health to 3 on start.
-        health = 3;
+        this.Health = 3;
         // Get reference to the health UI gameobject.
         healthUI = GameObject.Find("PlayerHealthUI");
+        // Get reference to gamemanager.
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         // Display initial health UI.
-        DisplayHealthUI(health);
+        UpdateHealthUI(this.Health);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.gameObject.name == "MaskedOrc") {
-            Debug.Log("hit enemy");
+        if (this.Health <= 0)
+        {
+            gm.PlayerDeath();
         }
     }
 
-    void DisplayHealthUI(int health) 
+    public void OnCollisionEnter2D(Collision2D col)
     {
-        for (int i = 0; i < health; i++) 
+        if (col.gameObject.CompareTag("Enemy")) 
+        {
+            this.Health -= 1;
+            UpdateHealthUI(this.Health);
+            gm.PlayerHit = true;
+        }
+    }
+
+    void UpdateHealthUI(int health) 
+    {
+        for (int i = 3; i > health; i--) 
         {
             Image currentHeart = healthUI.transform.Find("Heart" + i).GetComponent<Image>();
-            currentHeart.enabled = true;
+            currentHeart.enabled = false;
         }
     }
+
+    public int Health
+    {
+        get { return _health; }
+        set { _health = value; }
+    } 
 }

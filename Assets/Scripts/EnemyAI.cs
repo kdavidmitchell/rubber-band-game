@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed = 5;
-
+    private GameManager gm;
     private Animator animator;
     private Vector2 movement;
     private new Rigidbody2D rigidbody;
@@ -20,6 +19,7 @@ public class EnemyAI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Knight").GetComponent<Rigidbody2D>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -38,6 +38,6 @@ public class EnemyAI : MonoBehaviour
     public void FixedUpdate()
     {
         // rigidbody.MovePosition(rigidbody.position + movement.normalized * speed * Time.fixedDeltaTime);
-        rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, speed * Time.fixedDeltaTime);
+        rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, gm.EnemyParams.Speed * Time.fixedDeltaTime);
     }
 }

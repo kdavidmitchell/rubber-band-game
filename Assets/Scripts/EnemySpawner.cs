@@ -5,11 +5,16 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemy;
-    private float timer = 5f;
+    private float timer;
+    private GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Get reference to gamemanager.
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // Set timer to init.
+        timer = gm.EnemyParams.SpawnRate;
         // Spawn first enemy before first frame update.
         SpawnEnemy();
     }
@@ -20,7 +25,7 @@ public class EnemySpawner : MonoBehaviour
         // Timer that determines spawn rate.
         timer -= Time.deltaTime;
         if (timer <= 0) {
-            timer = 5f;
+            timer = gm.EnemyParams.SpawnRate;
             SpawnEnemy();
         }
     }
