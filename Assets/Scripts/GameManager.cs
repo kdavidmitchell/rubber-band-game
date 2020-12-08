@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class GameManager : MonoBehaviour
     private PlayerStats _playerStats;
     private GameObject _player;
     private bool _playerHit;
-
+    private TextMeshProUGUI _playerScoreValue;
     void Awake()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
         _playerStats = new PlayerStats();
         _player = GameObject.Find("Player");
         _playerHit = false;
+        _playerScoreValue = GameObject.Find("PlayerScoreValue").GetComponent<TextMeshProUGUI>();
+        UpdatePlayerScore();
     }
 
     // Update is called once per frame
@@ -47,6 +50,17 @@ public class GameManager : MonoBehaviour
     {
         this.PlayerStats.Deaths += 1;
         SceneManager.LoadScene("Demo");
+    }
+
+    public void PlayerKill()
+    {
+        this.PlayerStats.Kills += 1;
+        UpdatePlayerScore();
+    }
+
+    private void UpdatePlayerScore()
+    {
+        _playerScoreValue.text = this.PlayerStats.Kills.ToString();
     }
 
     public EnemyParams EnemyParams 

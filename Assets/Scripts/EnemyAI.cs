@@ -11,6 +11,9 @@ public class EnemyAI : MonoBehaviour
     private Rigidbody2D player;
     private SpriteRenderer spriteRenderer;
 
+    private int health;
+    private float speed;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,8 @@ public class EnemyAI : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Knight").GetComponent<Rigidbody2D>();
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        health = gm.EnemyParams.Health;
+        speed = gm.EnemyParams.Speed;
     }
 
     // Update is called once per frame
@@ -33,11 +38,25 @@ public class EnemyAI : MonoBehaviour
         // {
         //     spriteRenderer.flipX = !spriteRenderer.flipX;
         // }
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            gm.PlayerKill();
+        }
     }
 
     public void FixedUpdate()
     {
         // rigidbody.MovePosition(rigidbody.position + movement.normalized * speed * Time.fixedDeltaTime);
-        rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, gm.EnemyParams.Speed * Time.fixedDeltaTime);
+        rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, speed * Time.fixedDeltaTime);
+    }
+
+    public void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Missile")) 
+        {
+            health -= 1;
+        }
     }
 }

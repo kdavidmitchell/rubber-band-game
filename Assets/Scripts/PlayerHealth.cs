@@ -19,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
         // Get reference to gamemanager.
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         // Display initial health UI.
-        UpdateHealthUI(this.Health);
+        InitHealthUI(this.Health);
     }
 
     // Update is called once per frame
@@ -47,6 +47,15 @@ public class PlayerHealth : MonoBehaviour
         {
             Image currentHeart = healthUI.transform.Find("Heart" + i).GetComponent<Image>();
             currentHeart.enabled = false;
+        }
+    }
+
+    void InitHealthUI(int health)
+    {
+        for (int i = 1; i <= health; i++) 
+        {
+            Image currentHeart = healthUI.transform.Find("Heart" + i).GetComponent<Image>();
+            currentHeart.enabled = true;
         }
     }
 

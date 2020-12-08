@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class MissileBehavior : MonoBehaviour
 {
-    private float _speed = 5f;
+    private float _speed = 10f;
     private float _despawnTimer = 1f;
+    private new Rigidbody2D rigidbody;
+    private Vector3 targetPosition;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbody = GetComponent<Rigidbody2D>();
+        targetPosition = GameObject.Find("Knight").GetComponent<PlayerAttack>().TargetPosition;
     }
 
     // Update is called once per frame
@@ -20,5 +24,10 @@ public class MissileBehavior : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void FixedUpdate()
+    {
+        rigidbody.position = Vector2.MoveTowards(rigidbody.position, targetPosition, _speed * Time.fixedDeltaTime);
     }
 }
