@@ -6,6 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     public GameObject swordPrefab;
     private Vector3 _targetPosition;
+    private float _timer = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +17,12 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        _timer -= Time.deltaTime;
+        if (Input.GetMouseButtonDown(0) && _timer <= 0)
         {
             this.TargetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             ShootProjectile();
+            _timer = 0.5f;
         }
     }
 

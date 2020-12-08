@@ -30,4 +30,12 @@ public class MissileBehavior : MonoBehaviour
     {
         rigidbody.position = Vector2.MoveTowards(rigidbody.position, targetPosition, _speed * Time.fixedDeltaTime);
     }
+
+    public void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

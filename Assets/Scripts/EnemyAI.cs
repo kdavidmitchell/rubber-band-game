@@ -58,5 +58,10 @@ public class EnemyAI : MonoBehaviour
         {
             health -= 1;
         }
+
+        if (col.gameObject.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
