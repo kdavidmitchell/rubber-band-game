@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     private GameObject _player;
     private bool _playerHit;
     private TextMeshProUGUI _playerScoreValue;
+    private Candidate _candidate1;
+    private Candidate _candidate2;
+
     void Awake()
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("GameManager");
@@ -27,6 +30,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _candidate1 = new Candidate();
+        _candidate2 = new Candidate();
         _enemyParams = new EnemyParams();
         _playerStats = new PlayerStats();
         _player = GameObject.Find("Knight");
@@ -74,6 +79,18 @@ public class GameManager : MonoBehaviour
         distance = (distance > max) ? max : distance;
         fitness /= distance;
         fitness -= max*damageSuccess;
+
+        if (fitness > _candidate1.Fitness) 
+        {
+            // Save candidate 1 in candidate 2.-
+            _candidate2.CandidateObject = _candidate1.CandidateObject;
+            _candidate2.Fitness = _candidate1.Fitness;
+            // save newest max candidate as candidate 1.
+            _candidate1.CandidateObject = enemy;
+            _candidate1.Fitness = fitness;
+            Debug.Log(_candidate1.Fitness.ToString() +  " This is candidate 1");
+            Debug.Log(_candidate2.Fitness.ToString() + " This is candidate 2");
+        }
     }
 
 
