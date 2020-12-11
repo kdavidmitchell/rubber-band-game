@@ -7,10 +7,10 @@ This project is a basic game demo that highlights a genetic algorithm being used
 
 ## Contributors
 
-Aakash Prabhu
-Aaron Ong
-Arunpreet Sandhu
-Kyle Mitchell
+Aakash Prabhu <br />
+Aaron Ong <br />
+Arunpreet Sandhu <br />
+Kyle Mitchell <br />
 
 ## Installation
 
