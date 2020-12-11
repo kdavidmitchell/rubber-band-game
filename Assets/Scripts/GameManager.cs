@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     {
         _enemyParams = new EnemyParams();
         _playerStats = new PlayerStats();
-        _player = GameObject.Find("Player");
+        _player = GameObject.Find("Knight");
         _playerHit = false;
         _playerScoreValue = GameObject.Find("PlayerScoreValue").GetComponent<TextMeshProUGUI>();
         UpdatePlayerScore();
@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     public void PlayerDeath()
     {
         this.PlayerStats.Deaths += 1;
+        this.PlayerStats.Kills = 0;
         SceneManager.LoadScene("Demo");
     }
 
@@ -62,6 +63,19 @@ public class GameManager : MonoBehaviour
     {
         _playerScoreValue.text = this.PlayerStats.Kills.ToString();
     }
+
+    // enemyfitness = (10000/D(player, enemy)) - 10000*Damage(player);
+    public void Evaluate(GameObject enemy, int damageSuccess) 
+    {  
+        double max = 10000;
+        double fitness = max;
+        double distance = Vector3.Distance(_player.transform.position , enemy.transform.position);
+        distance = (distance < 1) ? 1 : distance;
+        distance = (distance > max) ? max : distance;
+        fitness /= distance;
+        fitness -= max*damageSuccess;
+    }
+
 
     public EnemyParams EnemyParams 
     {
