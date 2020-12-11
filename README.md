@@ -1,4 +1,4 @@
-# rubber-band-game
+# The Rubber Band Game
 Code base for adaptive difficulty AI demo built with Unity. Created in partial fulfillment of ECS289G Fall 2020 course requirements.
 
 ## About
