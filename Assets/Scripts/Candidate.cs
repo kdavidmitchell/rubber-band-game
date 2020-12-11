@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class Candidate 
 {
-    private GameObject _candidate;
+    private float _speed;
+    private float _spawnRate;
     private double _fitness;
     public Candidate() 
     {
-        _candidate = new GameObject();
+        _speed = 0;
         _fitness = 0;
     }
 
     public double Fitness 
     {
         get { return _fitness; }
-        set { _fitness= value; }
+        set { _fitness = value; }
     }
-    public GameObject CandidateObject
+    public float SpawnRate 
+    {
+        get { return _spawnRate; }
+        set { _spawnRate = value; }
+    }
+    public float Speed
     { 
-        get { return _candidate; }
-        set { _candidate = value; }
+        get { return _speed; }
+        set { _speed = value; }
     }
 }

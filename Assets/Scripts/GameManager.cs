@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     }
 
     // enemyfitness = (10000/D(player, enemy)) - 10000*Damage(player);
-    public void Evaluate(GameObject enemy, int damageSuccess) 
+    public void Evaluate(GameObject enemy, int damageSuccess, float speed) 
     {  
         double max = 10000;
         double fitness = max;
@@ -83,15 +83,53 @@ public class GameManager : MonoBehaviour
         if (fitness > _candidate1.Fitness) 
         {
             // Save candidate 1 in candidate 2.-
-            _candidate2.CandidateObject = _candidate1.CandidateObject;
+            _candidate2.Speed = _candidate1.Speed;
+            _candidate2.SpawnRate = _candidate1.SpawnRate;
             _candidate2.Fitness = _candidate1.Fitness;
             // save newest max candidate as candidate 1.
-            _candidate1.CandidateObject = enemy;
+            _candidate1.Speed = speed;
             _candidate1.Fitness = fitness;
+            _candidate1.SpawnRate = _enemyParams.SpawnRate;
             Debug.Log(_candidate1.Fitness.ToString() +  " This is candidate 1");
             Debug.Log(_candidate2.Fitness.ToString() + " This is candidate 2");
+            Breed();
         }
     }
+
+    private EnemyParams CrossOver()
+    {
+        EnemyParams crossOverParams = new EnemyParams();
+        //cross over speed
+        double crossOverSpeed = _candidate1.Speed;
+        crossOverSpeed += _candidate2.Speed;
+        crossOverSpeed /= 2;
+
+        float crossOverSpawnRate = _candidate1.SpawnRate;
+        crossOverSpawnRate += _candidate2.SpawnRate;
+        crossOverSpawnRate /= 2;
+        crossOverParams.SpawnRate = crossOverSpawnRate;
+        
+        return crossOverParams;
+    }
+
+    private EnemyParams Mutate() 
+    {
+        Debug.Log("We are mutating!");
+        EnemyParams mutatedParams = new EnemyParams();
+        float mutatedSpeed = _candidate1.Speed * (Random.Range(5f,30f)/10f);
+        float mutatedSpawnRate = _candidate1.SpawnRate * (Random.Range(5f,12f)/10f);
+        mutatedParams.Speed = mutatedSpeed;
+        mutatedParams.SpawnRate = mutatedSpawnRate;
+        return mutatedParams;
+    }
+    private void Breed()
+    {
+        EnemyParams newParams = new EnemyParams();
+        newParams = (Random.Range(0,1) > 0) ? CrossOver() : Mutate();
+
+        _enemyParams = newParams;
+    }
+
 
 
     public EnemyParams EnemyParams 

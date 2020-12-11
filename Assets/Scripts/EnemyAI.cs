@@ -41,7 +41,7 @@ public class EnemyAI : MonoBehaviour
 
         if (health <= 0)
         {
-            gm.Evaluate(gameObject, 0);
+            gm.Evaluate(gameObject, 0, speed);
             Destroy(gameObject);
             gm.PlayerKill();
         }
@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
 
         if (col.gameObject.CompareTag("Player"))
         {
-            gm.Evaluate(gameObject, 1);
+            gm.Evaluate(gameObject, 1, speed);
             Destroy(gameObject);
             // Evaluate enemy
         }
