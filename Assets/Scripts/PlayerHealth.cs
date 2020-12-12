@@ -33,7 +33,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Enemy")) 
+        if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("EnemyMissile")) 
         {
             this.Health -= 1;
             UpdateHealthUI(this.Health);

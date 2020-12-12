@@ -8,6 +8,7 @@ TagManager:
   - GameManager
   - Missile
   - UI
+  - EnemyMissile
   layers:
   - Default
   - TransparentFX
