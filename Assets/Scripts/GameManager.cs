@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     }
 
     // enemyfitness = (10000/D(player, enemy)) - 10000*Damage(player);
-    public void Evaluate(GameObject enemy, int damageSuccess, float speed) 
+    public void Evaluate(GameObject enemy, int damageSuccess) 
     {  
         double max = 10000;
         double fitness = max;
@@ -82,18 +82,18 @@ public class GameManager : MonoBehaviour
 
         if (fitness > _candidate1.Fitness) 
         {
-            // Save candidate 1 in candidate 2.-
+            // Save candidate 1 in candidate 2.
             _candidate2.Speed = _candidate1.Speed;
             _candidate2.SpawnRate = _candidate1.SpawnRate;
             _candidate2.Fitness = _candidate1.Fitness;
             // save newest max candidate as candidate 1.
-            _candidate1.Speed = speed;
+            _candidate1.Speed = _enemyParams.Speed;
             _candidate1.Fitness = fitness;
             _candidate1.SpawnRate = _enemyParams.SpawnRate;
             Debug.Log(_candidate1.Fitness.ToString() +  " This is candidate 1");
             Debug.Log(_candidate2.Fitness.ToString() + " This is candidate 2");
-            Breed();
         }
+        Breed();
     }
 
     private EnemyParams CrossOver()
@@ -128,6 +128,8 @@ public class GameManager : MonoBehaviour
         newParams = (Random.Range(0,1) > 0) ? CrossOver() : Mutate();
 
         _enemyParams = newParams;
+        Debug.Log("Enemy Speed" + _enemyParams.Speed.ToString());
+        Debug.Log("Enemy Spawn Rate" + _enemyParams.SpawnRate.ToString());
     }
 
 
