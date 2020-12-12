@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 5929704426797788280}
   - component: {fileID: 5509274835236077942}
   m_Layer: 0
-  m_Name: Ogre 1
-  m_TagString: Untagged
+  m_Name: Ogre
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -150,7 +150,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!114 &5509274835236077942
 MonoBehaviour:
   m_ObjectHideFlags: 0
