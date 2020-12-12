@@ -9104,7 +9104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f55444b8f11a8641a75055ad1aa0869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 6963218544976182214, guid: 088a0168fc53e4943ada00cade5a992a, type: 3}
+  maskedOrc: {fileID: 6963218544976182214, guid: 088a0168fc53e4943ada00cade5a992a,
+    type: 3}
+  ogre: {fileID: 2179296400991150110, guid: 843d7854534a5594ea2acbf5fe253601, type: 3}
 --- !u!4 &2036518987
 Transform:
   m_ObjectHideFlags: 0
