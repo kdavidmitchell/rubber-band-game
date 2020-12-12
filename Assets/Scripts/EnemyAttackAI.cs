@@ -18,9 +18,7 @@ public class EnemyAttackAI : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        this.TargetPosition = GameObject.Find("Knight").GetComponent<Rigidbody2D>().position;
-        
+    {   
         _attackDelay -= Time.deltaTime;
         if (_attackDelay <= 0)
         {
