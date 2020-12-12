@@ -9106,7 +9106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maskedOrc: {fileID: 6963218544976182214, guid: 088a0168fc53e4943ada00cade5a992a,
     type: 3}
-  ogre: {fileID: 2179296400991150110, guid: 843d7854534a5594ea2acbf5fe253601, type: 3}
+  ogre: {fileID: 5929704426797788284, guid: 542197bb49fc6314cbecaf6b6b3300f6, type: 3}
 --- !u!4 &2036518987
 Transform:
   m_ObjectHideFlags: 0
