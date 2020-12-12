@@ -71,10 +71,10 @@ public class GameManager : MonoBehaviour
 
     // enemyfitness = (10000/D(player, enemy)) - 10000*Damage(player);
     public void Evaluate(GameObject enemy, int damageSuccess) 
-    {  
+    {
         double max = 10000;
         double fitness = max;
-        double distance = Vector3.Distance(_player.transform.position , enemy.transform.position);
+        double distance = Vector3.Distance(GameObject.Find("Knight").transform.position, enemy.transform.position);
         distance = (distance < 1) ? 1 : distance;
         distance = (distance > max) ? max : distance;
         fitness /= distance;

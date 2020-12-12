@@ -7,7 +7,7 @@ public class EnemyAttackAI : MonoBehaviour
 
     public GameObject missilePrefab;
     private Vector3 _targetPosition;
-    private float _attackDelay = 0.5f;
+    private float _attackDelay = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +25,7 @@ public class EnemyAttackAI : MonoBehaviour
         if (_attackDelay <= 0)
         {
             ShootProjectile();
+            _attackDelay = 1.0f;
         }
     }
 
