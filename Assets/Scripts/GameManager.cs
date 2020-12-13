@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI _playerScoreValue;
     private Candidate _candidate1;
     private Candidate _candidate2;
+    private float _missleSpeed = 10f;
 
     void Awake()
     {
@@ -48,6 +49,10 @@ public class GameManager : MonoBehaviour
         {
             this.PlayerStats.TimeSinceLastHit = 0;
             this.PlayerHit = false;
+        }
+        if (_playerStats.Kills == 25) 
+        {
+            SceneManager.LoadScene("Menu");
         }
     }
 
@@ -93,6 +98,23 @@ public class GameManager : MonoBehaviour
             Debug.Log(_candidate1.Fitness.ToString() +  " This is candidate 1");
             Debug.Log(_candidate2.Fitness.ToString() + " This is candidate 2");
         }
+
+        if (fitness < 3000)
+        {
+            _enemyParams.OrcSpawnChance = 30;
+            _missleSpeed = 20;
+        } 
+        else if (3000 <= fitness && fitness < 5000)
+        {
+            _enemyParams.OrcSpawnChance = 50;
+            _missleSpeed = 15; 
+        }
+        else 
+        {
+            _enemyParams.OrcSpawnChance = 70;
+            _missleSpeed = 10;
+        }
+
         Breed();
     }
 
@@ -115,9 +137,15 @@ public class GameManager : MonoBehaviour
     private EnemyParams Mutate() 
     {
         Debug.Log("We are mutating!");
+
         EnemyParams mutatedParams = new EnemyParams();
-        float mutatedSpeed = _candidate1.Speed * (Random.Range(5f,30f)/10f);
+        float mutatedSpeed = _candidate1.Speed * (Random.Range(5f,20f)/10f);
+        mutatedSpeed = (mutatedSpeed > 8) ? 8 : mutatedSpeed;
+        
         float mutatedSpawnRate = _candidate1.SpawnRate * (Random.Range(5f,12f)/10f);
+        mutatedSpawnRate = (mutatedSpawnRate < 0.5f) ? 0.5f : mutatedSpawnRate;
+        mutatedSpawnRate = (mutatedSpawnRate > 3f) ? 3 : mutatedSpawnRate;
+
         mutatedParams.Speed = mutatedSpeed;
         mutatedParams.SpawnRate = mutatedSpawnRate;
         return mutatedParams;
@@ -151,4 +179,11 @@ public class GameManager : MonoBehaviour
         get { return _playerHit; }
         set { _playerHit = value; }
     }
+
+    public float MissleSpeed 
+    {
+        get { return _missleSpeed; }
+        set { _missleSpeed = value; }
+    }
+
 }

@@ -8,12 +8,15 @@ public class MissileBehavior : MonoBehaviour
     private float _despawnTimer = 1f;
     private new Rigidbody2D rigidbody;
     private Vector3 targetPosition;
+    private GameManager gm;
 
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         targetPosition = GameObject.Find("Knight").GetComponent<PlayerAttack>().TargetPosition;
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _speed = gm.MissleSpeed;
     }
 
     // Update is called once per frame
