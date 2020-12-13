@@ -42,8 +42,7 @@ public class EnemySpawner : MonoBehaviour
         int randomEnemyType = Random.Range(0, 100);
         if (randomEnemyType <= gm.EnemyParams.OrcSpawnChance) {
             Instantiate(maskedOrc, currentPos, Quaternion.identity);
-        } else
-        {
+        } else {
             Instantiate(ogre, currentPos, Quaternion.identity);
         }
     }

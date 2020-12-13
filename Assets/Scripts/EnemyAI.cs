@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
     private new Rigidbody2D rigidbody;
     private Rigidbody2D player;
     private SpriteRenderer spriteRenderer;
+    private GameObject corridorWaypoint;
 
     private int health;
     private float speed;
@@ -22,6 +23,7 @@ public class EnemyAI : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Knight").GetComponent<Rigidbody2D>();
+        corridorWaypoint = GameObject.Find("CorridorWaypoint");
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
         health = gm.EnemyParams.Health;
         speed = gm.EnemyParams.Speed;
@@ -50,7 +52,15 @@ public class EnemyAI : MonoBehaviour
     public void FixedUpdate()
     {
         // rigidbody.MovePosition(rigidbody.position + movement.normalized * speed * Time.fixedDeltaTime);
-        rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, speed * Time.fixedDeltaTime);
+        if (rigidbody.position.x > corridorWaypoint.transform.position.x)
+        {
+            Debug.Log(rigidbody.position.x + " " + corridorWaypoint.transform.position.x);
+            rigidbody.position = Vector2.MoveTowards(rigidbody.position, corridorWaypoint.transform.position, speed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            rigidbody.position = Vector2.MoveTowards(rigidbody.position, player.position, speed * Time.fixedDeltaTime);
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D col)
