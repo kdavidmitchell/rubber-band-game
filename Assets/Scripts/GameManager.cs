@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
             this.PlayerStats.TimeSinceLastHit = 0;
             this.PlayerHit = false;
         }
-        if (_playerStats.Kills == 25) 
+        if (_playerStats.Kills == 25)
         {
             _playerStats.Kills = 0;
             UpdatePlayerScore();
@@ -76,18 +76,20 @@ public class GameManager : MonoBehaviour
         _playerScoreValue.text = this.PlayerStats.Kills.ToString();
     }
 
-    // enemyfitness = (10000/D(player, enemy)) - 10000*Damage(player);
-    public void Evaluate(GameObject enemy, int damageSuccess) 
+    public void Evaluate(GameObject enemy, int damageSuccess)
     {
         double max = 10000;
         double fitness = max;
         double distance = Vector3.Distance(GameObject.Find("Knight").transform.position, enemy.transform.position);
+
+        // Clamp distance to min of 1 and max of 10000
         distance = (distance < 1) ? 1 : distance;
         distance = (distance > max) ? max : distance;
-        fitness /= distance;
-        fitness -= max*damageSuccess;
 
-        if (fitness > _candidate1.Fitness) 
+        fitness /= distance;
+        fitness -= max * damageSuccess;
+
+        if (fitness > _candidate1.Fitness)
         {
             // Save candidate 1 in candidate 2.
             _candidate2.Speed = _candidate1.Speed;
@@ -97,22 +99,20 @@ public class GameManager : MonoBehaviour
             _candidate1.Speed = _enemyParams.Speed;
             _candidate1.Fitness = fitness;
             _candidate1.SpawnRate = _enemyParams.SpawnRate;
+
             Debug.Log(_candidate1.Fitness.ToString() +  " This is candidate 1");
             Debug.Log(_candidate2.Fitness.ToString() + " This is candidate 2");
         }
 
-        if (fitness < 3000)
-        {
+        if (fitness < 3000) {
+            // We're doing good so spawn more Ogre's and make our missile Speed
+            // faster
             _enemyParams.OrcSpawnChance = 30;
             _missleSpeed = 20;
-        } 
-        else if (3000 <= fitness && fitness < 5000)
-        {
+        } else if (3000 <= fitness && fitness <= 5000) {
             _enemyParams.OrcSpawnChance = 50;
-            _missleSpeed = 15; 
-        }
-        else 
-        {
+            _missleSpeed = 15;
+        } else {
             _enemyParams.OrcSpawnChance = 70;
             _missleSpeed = 10;
         }
@@ -128,25 +128,32 @@ public class GameManager : MonoBehaviour
         crossOverSpeed += _candidate2.Speed;
         crossOverSpeed /= 2;
 
+        crossOverSpeed = (crossOverSpeed > 8) ? 8 : crossOverSpeed;
+
+
         float crossOverSpawnRate = _candidate1.SpawnRate;
         crossOverSpawnRate += _candidate2.SpawnRate;
         crossOverSpawnRate /= 2;
+
+        crossOverSpawnRate = (crossOverSpawnRate < 0.5f) ? 0.5f : crossOverSpawnRate;
+        crossOverSpawnRate = (crossOverSpawnRate > 3.0f) ? 3.0f : crossOverSpawnRate;
+
         crossOverParams.SpawnRate = crossOverSpawnRate;
-        
+
         return crossOverParams;
     }
 
-    private EnemyParams Mutate() 
+    private EnemyParams Mutate()
     {
         Debug.Log("We are mutating!");
 
         EnemyParams mutatedParams = new EnemyParams();
         float mutatedSpeed = _candidate1.Speed * (Random.Range(5f,20f)/10f);
         mutatedSpeed = (mutatedSpeed > 8) ? 8 : mutatedSpeed;
-        
+
         float mutatedSpawnRate = _candidate1.SpawnRate * (Random.Range(5f,12f)/10f);
         mutatedSpawnRate = (mutatedSpawnRate < 0.5f) ? 0.5f : mutatedSpawnRate;
-        mutatedSpawnRate = (mutatedSpawnRate > 3f) ? 3 : mutatedSpawnRate;
+        mutatedSpawnRate = (mutatedSpawnRate > 3.0f) ? 3.0f : mutatedSpawnRate;
 
         mutatedParams.Speed = mutatedSpeed;
         mutatedParams.SpawnRate = mutatedSpawnRate;
@@ -155,7 +162,7 @@ public class GameManager : MonoBehaviour
     private void Breed()
     {
         EnemyParams newParams = new EnemyParams();
-        newParams = (Random.Range(0,1) > 0) ? CrossOver() : Mutate();
+        newParams = (Random.Range(0,2) > 0) ? CrossOver() : Mutate();
 
         _enemyParams = newParams;
         Debug.Log("Enemy Speed" + _enemyParams.Speed.ToString());
@@ -164,7 +171,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    public EnemyParams EnemyParams 
+    public EnemyParams EnemyParams
     {
         get { return _enemyParams; }
         set { _enemyParams = value; }
@@ -176,13 +183,13 @@ public class GameManager : MonoBehaviour
         set { _playerStats = value; }
     }
 
-    public bool PlayerHit 
+    public bool PlayerHit
     {
         get { return _playerHit; }
         set { _playerHit = value; }
     }
 
-    public float MissleSpeed 
+    public float MissleSpeed
     {
         get { return _missleSpeed; }
         set { _missleSpeed = value; }

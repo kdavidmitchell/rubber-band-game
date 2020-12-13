@@ -18,7 +18,6 @@ public class PlayerHealth : MonoBehaviour
         healthUI = GameObject.Find("PlayerHealthUI");
         // Get reference to gamemanager.
         gm = GameObject.Find("GameManager").GetComponent<GameManager>();
-        // Display initial health UI.
         InitHealthUI(this.Health);
     }
 
@@ -33,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("EnemyMissile")) 
+        if (col.gameObject.CompareTag("Enemy") || col.gameObject.CompareTag("EnemyMissile"))
         {
             this.Health -= 1;
             UpdateHealthUI(this.Health);
@@ -41,9 +40,9 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void UpdateHealthUI(int health) 
+    void UpdateHealthUI(int health)
     {
-        for (int i = 3; i > health; i--) 
+        for (int i = 3; i > health; i--)
         {
             Image currentHeart = healthUI.transform.Find("Heart" + i).GetComponent<Image>();
             currentHeart.enabled = false;
@@ -52,7 +51,7 @@ public class PlayerHealth : MonoBehaviour
 
     void InitHealthUI(int health)
     {
-        for (int i = 1; i <= health; i++) 
+        for (int i = 1; i <= health; i++)
         {
             Image currentHeart = healthUI.transform.Find("Heart" + i).GetComponent<Image>();
             currentHeart.enabled = true;
@@ -63,5 +62,5 @@ public class PlayerHealth : MonoBehaviour
     {
         get { return _health; }
         set { _health = value; }
-    } 
+    }
 }
