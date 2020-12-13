@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         }
         if (_playerStats.Kills == 25) 
         {
+            _playerStats.Kills = 0;
             SceneManager.LoadScene("Win");
         }
     }
