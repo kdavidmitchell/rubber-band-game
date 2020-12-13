@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         }
         if (_playerStats.Kills == 25) 
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Win");
         }
     }
 
