@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         this.PlayerStats.Deaths += 1;
         this.PlayerStats.Kills = 0;
+        UpdatePlayerScore();
         SceneManager.LoadScene("Demo");
     }
 
