@@ -52,9 +52,8 @@ public class EnemyAI : MonoBehaviour
     public void FixedUpdate()
     {
         // rigidbody.MovePosition(rigidbody.position + movement.normalized * speed * Time.fixedDeltaTime);
-        if (rigidbody.position.x > corridorWaypoint.transform.position.x)
+        if (rigidbody.position.x > corridorWaypoint.transform.position.x && player.position.x < corridorWaypoint.transform.position.x)
         {
-            // Debug.Log(rigidbody.position.x + " " + corridorWaypoint.transform.position.x);
             rigidbody.position = Vector2.MoveTowards(rigidbody.position, corridorWaypoint.transform.position, speed * Time.fixedDeltaTime);
         }
         else
