@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviour
         if (fitness < 3000) {
             // We're doing good so spawn more Ogre's and make our missile Speed
             // faster
-            _enemyParams.OrcSpawnChance = 30;
-            _missleSpeed = 20;
+            _enemyParams.OrcSpawnChance = 10;
+            _missleSpeed = 30;
         } else if (3000 <= fitness && fitness <= 5000) {
             _enemyParams.OrcSpawnChance = 50;
             _missleSpeed = 15;
@@ -121,6 +121,18 @@ public class GameManager : MonoBehaviour
         Breed();
     }
 
+    private void Breed()
+    {
+        EnemyParams newParams = new EnemyParams();
+        // Randomly select wiht 50% probability to either mutate or crossover
+        newParams = (Random.Range(0,2) > 0) ? CrossOver() : Mutate();
+
+        // Copy over params
+        _enemyParams = newParams;
+        Debug.Log("Enemy Speed" + _enemyParams.Speed.ToString());
+        Debug.Log("Enemy Spawn Rate" + _enemyParams.SpawnRate.ToString());
+    }
+
     private EnemyParams CrossOver()
     {
         EnemyParams crossOverParams = new EnemyParams();
@@ -128,8 +140,8 @@ public class GameManager : MonoBehaviour
         double crossOverSpeed = _candidate1.Speed;
         crossOverSpeed += _candidate2.Speed;
         crossOverSpeed /= 2;
-
-        crossOverSpeed = (crossOverSpeed > 8) ? 8 : crossOverSpeed;
+        // Cap cross over speed. Fixes Breeding bug previously encounterd
+        crossOverSpeed = (crossOverSpeed > 10) ? 10 : crossOverSpeed;
 
 
         float crossOverSpawnRate = _candidate1.SpawnRate;
@@ -137,7 +149,7 @@ public class GameManager : MonoBehaviour
         crossOverSpawnRate /= 2;
 
         crossOverSpawnRate = (crossOverSpawnRate < 0.5f) ? 0.5f : crossOverSpawnRate;
-        crossOverSpawnRate = (crossOverSpawnRate > 3.0f) ? 3.0f : crossOverSpawnRate;
+        crossOverSpawnRate = (crossOverSpawnRate > 1.5f) ? 1.5f : crossOverSpawnRate;
 
         crossOverParams.SpawnRate = crossOverSpawnRate;
 
@@ -150,27 +162,18 @@ public class GameManager : MonoBehaviour
 
         EnemyParams mutatedParams = new EnemyParams();
         float mutatedSpeed = _candidate1.Speed * (Random.Range(5f,20f)/10f);
-        mutatedSpeed = (mutatedSpeed > 8) ? 8 : mutatedSpeed;
+        // Cap mutated speed
+        mutatedSpeed = (mutatedSpeed > 10) ? 10 : mutatedSpeed;
 
-        float mutatedSpawnRate = _candidate1.SpawnRate * (Random.Range(5f,12f)/10f);
+        float mutatedSpawnRate = _candidate1.SpawnRate * (Random.Range(5f,18f)/10f);
+        // Enemy spawn rate between 0.5 seconds and 1.5 seconds
         mutatedSpawnRate = (mutatedSpawnRate < 0.5f) ? 0.5f : mutatedSpawnRate;
-        mutatedSpawnRate = (mutatedSpawnRate > 3.0f) ? 3.0f : mutatedSpawnRate;
+        mutatedSpawnRate = (mutatedSpawnRate > 1.5f) ? 1.5f : mutatedSpawnRate;
 
         mutatedParams.Speed = mutatedSpeed;
         mutatedParams.SpawnRate = mutatedSpawnRate;
         return mutatedParams;
     }
-    private void Breed()
-    {
-        EnemyParams newParams = new EnemyParams();
-        newParams = (Random.Range(0,2) > 0) ? CrossOver() : Mutate();
-
-        _enemyParams = newParams;
-        Debug.Log("Enemy Speed" + _enemyParams.Speed.ToString());
-        Debug.Log("Enemy Spawn Rate" + _enemyParams.SpawnRate.ToString());
-    }
-
-
 
     public EnemyParams EnemyParams
     {
