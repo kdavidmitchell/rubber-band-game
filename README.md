@@ -16,7 +16,7 @@ fulfillment_ of ECS289G Fall 2020 course requirements.
 
 <p align="center">
     <img src="images/main_menu.png" alt="Main Menu render"
-    height="25%" width="25%">
+    height="75%" width="75%">
 </p>
 
 This project is a basic game demo that highlights a genetic algorithm being used
@@ -64,8 +64,8 @@ There will be executables for Windows and MacOS.
 your machine.
 
 1. Clone this repository:
-```
-git clone
+```shell
+git clone https://github.com/kdavidmitchell/rubber-band-game.git
 ```
 After cloning/downloading this repository, open a new project in
 Unity with this repository's folder as the project folder.
